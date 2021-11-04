@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+import miapp
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +29,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Session inactive
-SESSION_COOKIE_AGE = 600           #10min
+SESSION_COOKIE_AGE = 150           #2.5min
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_password_validators',
-    'miapp'
+    'miapp',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'djangoLogin.urls'
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'djangoLogin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'miapp/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoLogin.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -87,7 +88,6 @@ DATABASES = {
         'PORT': '3306'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -123,17 +123,15 @@ AUTH_PASSWORD_VALIDATORS = [
                     'min_length_special': 1,
                     'special_characters': "~!@#$%^&*()_+{}\":;'[]"
                 }
-    },
-    
+    }
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-uy'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Montevideo'
 
 USE_I18N = True
 
@@ -147,8 +145,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-ACCOUNT_PASSWORD_USE_HISTORY = True
-ACCOUNT_PASSWORD_EXPIRY = 60*60*24*1
+ACCOUNT_PASSWORD_USE_HISTORY  =  True 
+ACCOUNT_PASSWORD_EXPIRY  =  60 * 60 * 24 * 5   # número de segundos, esto es cinco días
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
