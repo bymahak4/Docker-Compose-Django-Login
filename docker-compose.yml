@@ -11,13 +11,13 @@ services:
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: prueba
-    #volumes:
-     # - ./mysql:/var/lib/mysql
-     
+    volumes:
+      - ./mysql:/usr/lib64/mysql
+
   web:
     build: .
     container_name: pythonD
-    command: python manage.py runserver 0.0.0.0:8000 --noreload
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
