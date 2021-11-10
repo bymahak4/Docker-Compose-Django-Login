@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-import miapp
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,11 +27,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Session inactive
-SESSION_COOKIE_AGE = 150           #2.5min
+SESSION_COOKIE_AGE = 300           #5min
 
 # Application definition
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_password_validators',
+    'useraudit',
     'miapp',
 ]
 
 MIDDLEWARE = [
+    'useraudit.middleware.RequestToThreadLocalMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,10 +83,15 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '1234',
         'HOST': 'db',
-        'PORT': '3306'
-    }
-    
+        'PORT': 3306
+    },
 }
+
+AUTHENTICATION_BACKENDS = (
+    'useraudit.password_expiry.AccountExpiryBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'useraudit.backend.AuthFailedLoggerBackend'
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -110,29 +113,22 @@ AUTH_PASSWORD_VALIDATORS = [
                 }
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-    {
         'NAME': 'django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator',
                 'OPTIONS': {
                     'min_length_digit': 1,
                     'min_length_lower': 1,
                     'min_length_upper': 1,
-                    'min_length_special': 1,
+                    'min_length_special': 0,
                     'special_characters': "~!@#$%^&*()_+{}\":;'[]"
                 }
-    }
+    },
 ]
-
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'es-uy'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'America/Montevideo'
 
@@ -142,16 +138,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
-ACCOUNT_PASSWORD_USE_HISTORY  =  True 
-ACCOUNT_PASSWORD_EXPIRY  =  60 * 60 * 24 * 5   # número de segundos, esto es cinco días
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+
 
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
 #EMAIL_HOST = 'smtp.gmail.com'
@@ -159,4 +152,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During devel
 #EMAIL_USE_TLS = True
 #EMAIL_HOST_USER = 'yourEmail'
 #EMAIL_HOST_PASSWORD = 'yourPassword'
+
+
+# Disable the user's account if they haven't logged in for this time
+ACCOUNT_EXPIRY_DAYS = 10
+# Set to 0 disables the feature
+LOGIN_FAILURE_LIMIT = 3
 

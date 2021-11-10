@@ -1,11 +1,12 @@
-version: "3.3"
+version: '3'
    
 services:
+
   db:
     container_name: mysqlD
     image: mysql:5.7
     ports:
-      - 3306:3306
+      - 33060:3306
     environment: 
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USERNAME: root
@@ -18,12 +19,13 @@ services:
     build: .
     container_name: pythonD
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
     ports:
       - "8000:8000"
+    volumes:
+      - .:/code
     depends_on:
       - db
+      
       
   
   

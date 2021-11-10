@@ -1,6 +1,5 @@
 from django import forms
-from django.core import validators
-from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
@@ -11,4 +10,6 @@ class registerForm(UserCreationForm):
 
 class PasswordResetRequestForm(forms.Form):
     email = forms.CharField(label=("Email"), max_length=254)
+
+
 
