@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_password_validators',
-    'useraudit',
+    'djangoLogin',
     'miapp',
+    'useraudit',
+    #'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -143,8 +145,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
+# Password reset settings for console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
 #EMAIL_HOST = 'smtp.gmail.com'
@@ -153,9 +156,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During devel
 #EMAIL_HOST_USER = 'yourEmail'
 #EMAIL_HOST_PASSWORD = 'yourPassword'
 
+# Password expiration setting
+AUTH_USER_MODEL = "miapp.User"
+AUTH_USER_MODEL_PASSWORD_CHANGE_DATE_ATTR = "password_change_date"
 
-# Disable the user's account if they haven't logged in for this time
-ACCOUNT_EXPIRY_DAYS = 10
+# How long a user's password is good for. None or 0 means no expiration.
+PASSWORD_EXPIRY_DAYS = 3
+# How long before expiry will the frontend start bothering the user
+PASSWORD_EXPIRY_WARNING_DAYS = 1
 # Set to 0 disables the feature
-LOGIN_FAILURE_LIMIT = 3
+LOGIN_FAILURE_LIMIT = 0
+
 
