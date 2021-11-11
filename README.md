@@ -2,11 +2,11 @@
 
  Login-Django
 
-_Login hecho en mvt con python y mysql._
+_Login hecho con python y mysql._
 
 ## Información 📋
 
-_Login con registro de usuario, reseteo y cambio de contraseña._
+_Login con registro de usuario, cambio de contraseña y reseteo, con intentos de login fallidos._
 
 ### Ejecución 🚀
 
