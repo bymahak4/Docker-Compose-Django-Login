@@ -6,4 +6,3 @@ pytz==2021.3
 django-password-validators==1.6.1
 django-useraudit==1.7.1
 #django-crontab==0.7.1
-

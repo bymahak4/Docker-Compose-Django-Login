@@ -55,6 +55,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'useraudit.password_expiry.AccountExpiryBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'useraudit.backend.AuthFailedLoggerBackend'
+)
+
 ROOT_URLCONF = 'djangoLogin.urls'
 
 TEMPLATES = [
@@ -89,11 +95,7 @@ DATABASES = {
     },
 }
 
-AUTHENTICATION_BACKENDS = (
-    'useraudit.password_expiry.AccountExpiryBackend',
-    'django.contrib.auth.backends.ModelBackend',
-    'useraudit.backend.AuthFailedLoggerBackend'
-)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -145,7 +147,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 # Password reset settings for console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
@@ -156,15 +157,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During devel
 #EMAIL_HOST_USER = 'yourEmail'
 #EMAIL_HOST_PASSWORD = 'yourPassword'
 
+
 # Password expiration setting
 AUTH_USER_MODEL = "miapp.User"
+# https://github.com/muccg/django-useraudit
 AUTH_USER_MODEL_PASSWORD_CHANGE_DATE_ATTR = "password_change_date"
 
 # How long a user's password is good for. None or 0 means no expiration.
-PASSWORD_EXPIRY_DAYS = 3
+PASSWORD_EXPIRY_DAYS = 6
 # How long before expiry will the frontend start bothering the user
-PASSWORD_EXPIRY_WARNING_DAYS = 1
+PASSWORD_EXPIRY_WARNING_DAYS = 3
 # Set to 0 disables the feature
 LOGIN_FAILURE_LIMIT = 0
-
-

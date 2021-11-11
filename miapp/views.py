@@ -3,18 +3,20 @@ from django.contrib import messages
 from .forms import registerForm
 from django.contrib.auth import authenticate, login, logout
 
-
 # Create your views here.
 def loginUser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
             messages.warning(request, 'Usuario Incorrecto o se a deshabilitado su cuenta')
+           
+            
     return render(request, 'users/indexLogin.html')
 
 def registerUser(request):
@@ -37,6 +39,3 @@ def logoutUser(request):
 
 def home(request):
     return render(request, 'users/home.html')
-
-
-
