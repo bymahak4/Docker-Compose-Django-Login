@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'miapp',
     'useraudit',
     #'django_crontab',
+    'django_extensions',
+    'pydotplus',
+    'pydot',
+    'pyparsing',
+    'graphviz',
 ]
 
 MIDDLEWARE = [
@@ -160,12 +165,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During devel
 
 # Password expiration setting
 AUTH_USER_MODEL = "miapp.User"
-# https://github.com/muccg/django-useraudit
 AUTH_USER_MODEL_PASSWORD_CHANGE_DATE_ATTR = "password_change_date"
 
 # How long a user's password is good for. None or 0 means no expiration.
-PASSWORD_EXPIRY_DAYS = 6
+PASSWORD_EXPIRY_DAYS = 30
 # How long before expiry will the frontend start bothering the user
-PASSWORD_EXPIRY_WARNING_DAYS = 3
+PASSWORD_EXPIRY_WARNING_DAYS = 15
 # Set to 0 disables the feature
 LOGIN_FAILURE_LIMIT = 0
